@@ -4,26 +4,18 @@
       <slot name="button" :toggle="toggle">
         <button
           type="button"
-          class="group rounded-md inline-flex items-center text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2"
+          class="group rounded-md p-1 -m-1 inline-flex items-center text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2"
           :disabled="disabled"
           @click="toggle"
         >
           <span>{{ text }}</span>
-          <svg
-            class="ml-2 h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-          </svg>
+          <Icon type="dropdown-arrow" class="ml-2 h-5 w-5" />
         </button>
       </slot>
     </div>
 
     <transition v-bind="currentTransition">
-      <div v-if="show" :class="dropdownClass" class="absolute z-10 -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
+      <div v-if="show" :class="dropdownClass" class="absolute z-10 mt-3 transform px-2 max-w-md sm:px-0">
         <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
           <slot :close="close" />
         </div>
@@ -34,16 +26,18 @@
 
 <script>
 import { computed } from 'vue';
+import Icon from '@/components/Icon';
 import { useTheme } from '@/theme';
 import { clickaway } from '@/directives/clickaway';
 import { props as fly } from '@/transitions/fly';
 import { props as mobile } from '@/transitions/mobile';
 
 export default {
+  components: { Icon },
   directives: { clickaway },
   props: {
     disabled: Boolean,
-    dropdownClass: [String, Array, Object],
+    dropdownClass: {type: [String, Array, Object], default: 'w-screen -ml-4 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2'},
     relative: Boolean,
     text: String,
     transition: String,

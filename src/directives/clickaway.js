@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { version as ver } from 'vue';
 
 export const version = '0.0.1';
@@ -23,7 +24,6 @@ function addHandler(el, binding) {
   if (callback === null) return;
   if (!(callback instanceof Function)) {
     if (process.env.NODE_ENV !== 'production') {
-      // console.warn(`v-${binding.name}="${binding.expression}" expects a function value, got ${callback}`);
       console.warn(`clickaway expects a function value, got ${callback}`);
     }
     return;

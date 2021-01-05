@@ -5,11 +5,11 @@
         <div class="flex justify-start lg:w-0 lg:flex-1">
           <a href="#">
             <span class="sr-only">Workflow</span>
-            <img class="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
+            <Icon type="logo" class="h-8 w-auto sm:h-10" :class="nav.icon.primary" />
           </a>
         </div>
-        <nav class="hidden md:flex space-x-10">
-          <DropDown text="Solutions" transition="fly">
+        <nav class="hidden md:flex space-x-6">
+          <DropDown :text="t('solutions')" transition="fly">
             <template #default="{close}">
               <div class="relative grid gap-6 px-5 py-6 sm:gap-8 sm:p-8" :class="nav.submenu.primary">
                 <a href="#" class="-m-3 p-3 flex items-start rounded-lg" :class="nav.submenu.item.primary" @click="close">
@@ -167,16 +167,16 @@
               </div>
             </template>
           </DropDown>
-          <DropDown text="Disabled" transition="fly" disabled />
+          <DropDown :text="t('disabled')" transition="fly" disabled />
 
           <a href="#" class="text-base font-medium" :class="[nav.option.enabled, nav.option.main]">
-            Pricing
+            {{ t('pricing') }}
           </a>
           <a href="#" class="text-base font-medium" :class="[nav.option.enabled, nav.option.main]">
             Docs
           </a>
 
-          <DropDown text="More" transition="fly">
+          <DropDown :text="t('more')" transition="fly">
             <template #default>
               <div class="relative grid gap-6 px-5 py-6 sm:gap-8 sm:p-8" :class="nav.submenu.primary">
                 <a href="#" class="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50">
@@ -318,9 +318,34 @@
               </div>
             </template>
           </DropDown>
+          <a href="#" class="hidden md:block whitespace-nowrap text-base font-medium" :class="[nav.option.enabled, nav.option.main]">
+            {{ t('sign.in') }}
+          </a>
+          <a href="#" class="hidden md:block -my-2 whitespace-nowrap inline-flex items-center justify-center px-4 py-2" :class="button.primary">
+            {{ t('sign.up') }}
+          </a>
+          <DropDown i18n text="Lang" class="hidden md:block" relative dropdown-class="right-0 -mr-2 w-auto">
+            <template #button="{toggle}">
+              <button
+                type="button"
+                class="group rounded-md p-1 -m-1 inline-flex items-center text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2"
+                @click="toggle"
+              >
+                <Icon type="globe" class="h-5 w-auto" />
+                <Icon type="dropdown-arrow" class="ml-2 h-5 w-5" />
+              </button>
+            </template>
+            <template #default="{close}">
+              <I18n @change="close" />
+            </template>
+          </DropDown>
+          <DarkMode class="hidden md:block" />
         </nav>
+        <!-- <div class="ml-4 hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+        </div> -->
+        <!-- <I18n class="md:hidden" /> -->
         <DarkMode class="md:hidden" />
-        <DropDown transition="mobile" class="-mr-2 -my-2 md:hidden" dropdown-class="right-0 top-0">
+        <DropDown transition="mobile" class="md:hidden -mr-2 -my-2" dropdown-class="left-0 top-0 w-screen">
           <template #button="{toggle}">
             <button
               type="button"
@@ -508,16 +533,6 @@
             </div>
           </template>
         </DropDown>
-        <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-          <a href="#" class="whitespace-nowrap text-base font-medium" :class="[nav.option.enabled, nav.option.main]">
-            Sign in
-          </a>
-          <a href="#" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2" :class="button.primary">
-            Sign up
-          </a>
-
-          <DarkMode />
-        </div>
       </div>
     </div>
   </div>
@@ -525,26 +540,31 @@
 
 <script>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useTheme } from '@/theme';
 import DarkMode from './DarkMode';
 import DropDown from './DropDown';
+import I18n from './I18n';
+import Icon from '@/components/Icon';
 
 export default {
   name: 'NavBar',
   components: {
     DarkMode,
     DropDown,
+    I18n,
+    Icon,
   },
   setup() {
+    const { t } = useI18n();
     const theme = useTheme();
     const nav = computed(() => theme.NavBar);
     const button = computed(() => theme.button);
 
-    return { nav, button };
+    return { button, nav, t };
   },
 };
 </script>
 
 <style>
-
 </style>
