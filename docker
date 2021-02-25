@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+WHITE='\033[1;37m'
+NC='\033[0m'
+
+while [ ! -f "./.env" ]; do
+  echo -e "${RED}.env file does not exist...${NC}"
+  read -p "Do you wish to create it? " yn
+  case $yn in
+      [Yy]* )
+        read -p "(P)roduction or (D)evelop?" yn
+        case $yn in
+            [Dd]* ) cp -f ./.env.dev ./.env; break;;
+            * ) cp -f ./.env.prod ./.env; break;;
+        esac
+      break;;
+      [Nn]* ) break;;
+      * ) echo "Please answer yes or no.";;
+  esac
+done
+
+if [[ "$1" == install ]] || [ ! -d "./node_modules" ]; then
+  echo -e "Downloading dependencies (${CYAN}node_modules${NC} folder)..."
+  docker-compose -f docker-compose.yml up
+  # docker-compose run --rm --no-deps app npm install
+  [[ "$1" == install ]] && exit
+fi
+
+if [ ! -f "./docker-compose.override.yml" ]; then
+  APP_MODE="$(grep -E APP_MODE=.+ .env | cut -c10-13)"
+  echo -e "Copying ${GREEN}${APP_MODE}${NC} mode configuration..."
+  cp "./docker-compose.${APP_MODE}.yml" ./docker-compose.override.yml
+fi
+
+docker-compose $@

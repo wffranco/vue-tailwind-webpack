@@ -3,9 +3,11 @@ node_modules
 /dist
 
 
-# local env files
+# local files
+.env
 .env.local
 .env.*.local
+docker-compose.override.yml
 
 # Log files
 npm-debug.log*
