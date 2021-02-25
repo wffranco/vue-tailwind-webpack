@@ -5,3 +5,16 @@
 body {
   transition: color .5s, background-color .5s;
 }
+
+.scrollbar-sm::-webkit-scrollbar {
+  width: 5px;
+}
+.scrollbar-sm::-webkit-scrollbar-track {
+  background: #ddd;
+}
+.scrollbar-sm::-webkit-scrollbar-thumb {
+  background: #888;
+}
+.scrollbar-sm::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
