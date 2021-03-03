@@ -11,4 +11,8 @@ export const useGlobals: Fn<Globals>;
 
 export declare function local<T>(key: string, value: T): Ref<T>;
 
-export const append: Readonly<Object>;
+export const append: Readonly<{
+  action: Function;
+  actions: Function;
+  ref: Function;
+}>;
